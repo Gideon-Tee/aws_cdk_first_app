@@ -6,6 +6,7 @@ from aws_cdk import (
     aws_sqs as sqs,
     aws_sns as sns,
     aws_sns_subscriptions as subs,
+    aws_ecr as ecr,
 )
 
 
@@ -24,3 +25,18 @@ class MyFirstCdkAppStack(Stack):
         )
 
         topic.add_subscription(subs.SqsSubscription(queue))
+
+
+
+        # L1
+        cfn_repository = ecr.CfnRepository(
+            self,
+            "RepoL1",
+            image_scanning_configuration=ecr.CfnRepository.ImageScanningConfigurationProperty(
+                scan_on_push=False
+            ),
+            repository_name="repo-l1"
+        )
+
+        # L2
+        repository = ecr.Repository(self, "repo-l2")
